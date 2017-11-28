@@ -69,20 +69,19 @@ Mongo: Update Operations
 ------------------------
 To UPDATE an entire document, pass in a query and all key/value pairs:
 - For this method, you MUST enter in all data for that document again!
-- UPDATE will only update the FIRST document that matches the query
-# db.<collection>.update({key:value}, {key1:value1, key2:value2, key3:value3 . . . })
-# e.g. db.users.update({'username':'bcmendoza'}, {'username':'bcmendoza', 'first':'Brian'})
+# db.<collection>.updateOne({key:value}, {key1:value1, key2:value2, key3:value3 . . . })
+# e.g. db.users.updateOne({'username':'bcmendoza'}, {'username':'bcmendoza', 'first':'Brian'})
 
 To add a new key/value pair:
-# db.<collection>.update({key:value}, {$set: {key:value} })
-# e.g. db.users.update({'username':'bcmendoza'}, {$set: {title:"Full Stack Developer"} })
+# db.<collection>.updateOne({key:value}, {$set: {key:value} })
+# e.g. db.users.updateOne({'username':'bcmendoza'}, {$set: {title:"Full Stack Developer"} })
 
 NOTE: NoSQL databases can store multiple values in one column!
 # e.g. Brian can have many interests (e.g. coding, eating, biking)
 
 To add to an array in one of its keys:
-# db.<collection>.update({key:value}, {$addToSet: {array_key:value} })
-# e.g. db.users.update({'username':'bcmendoza'}, {$addToSet: {interests:"many other things"} })
+# db.<collection>.updateOne({key:value}, {$addToSet: {array_key:value} })
+# e.g. db.users.updateOne({'username':'bcmendoza'}, {$addToSet: {interests:"many other things"} })
 {
     "_id" : ObjectId("346364363643463464"),
     "username" : "bcmendoza",
@@ -96,12 +95,12 @@ To add to an array in one of its keys:
 }
 
 To add to an array, allowing for duplicate values in a list:
-# db.<collection>.update({array_key:value}, {$push: {array_key:same_value}})
+# db.<collection>.updateOne({key:value}, {$push: {array_key:same_value}})
 
 To remove from an array via location, use 1 to pop last, -1 to pop first
-# db.<collection>.update({array_key:value}, {$pop: {array_key: (1 or -1)} })
-# e.g. db.<collection>.update({'username':'bcmendoza'}, {$pop: {'interests': -1} })
+# db.<collection>.updateOne({key:value}, {$pop: {array_key: (1 or -1)} })
+# e.g. db.<collection>.updateOne({'username':'bcmendoza'}, {$pop: {'interests': -1} })
 
 To remove from an array via value:
-# db.<collection>.update({array_key:value}, {$pull: {array_key: value}})
-# e.g. db.users.update({'username':'bcmendoza'}, {$pull: {'interests':'biking'} })
+# db.<collection>.updateOne({key:value}, {$pull: {array_key: value}})
+# e.g. db.users.updateOne({'username':'bcmendoza'}, {$pull: {'interests':'biking'} })

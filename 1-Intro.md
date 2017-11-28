@@ -23,27 +23,42 @@ db.users.find({lucky_number: {$lte: 10} })
 # - between 1 and 9 (inclusive)
 db.users.find({lucky_number:{$gte:1, $lte:9}})
 
-# Add a field to each user collection called 'interests' that is an ARRAY.  It should contain the following entries: 'coding', 'brunch', 'MongoDB'. Do this in ONE operation.
-db.users.update({name:{$exists:true}}, {interests:['coding','brunch','MongoDB']})
+# Add a field to each user called 'interests' that is an ARRAY.  It should contain the following entries: 'coding', 'brunch', 'MongoDB'. Do this in ONE operation.
+db.users.updateMany({}, {$set: {interests:['coding','brunch','MongoDB']} })
 
 # Add some unique interests for each particular users into each of their interest arrays.
+db.users.updateOne({name:'Jon'},{$addToSet: {interests:'football'}})
+db.users.updateOne({name:'Brian'},{$addToSet: {interests:'learning'}})
+db.users.updateOne({name:'Motuma'},{$addToSet: {interests:'helping people'}})
+db.users.updateOne({name:'Yassine'},{$addToSet: {interests:'speaking French'}})
+db.users.updateOne({name:'Olu'},{$addToSet: {interests:'tennis'}})
 
 # Add the interest 'taxes' into someone's interest array.
+db.users.updateOne({name:'Olu'},{$addToSet: {interests:'taxes'}})
 
 # Remove the 'taxes' interest you just added.
+db.users.updateOne({name:'Olu'},{$pull: {interests:'taxes'}})
 
-# Remove all users who are from California (or Washington).
+# Remove all users from a particular state.
+db.users.remove({state:'DC'})
 
 # Remove a user by name. 
+db.users.remove({name:'Brian'})
 
 # Remove a user whose lucky number is greater than 5 (JUST ONE)
+db.users.remove({lucky_number: {$gt: 5} }, true)
 
-# Add a field to each user collection called 'number_of_belts' and set it to 0.
+# Add a field to each user called 'number_of_belts' and set it to 0.
+db.users.updateMany({}, {$set: {number_of_belts:0} })
 
-# Increment this field by 1 for all users in Washington (Seattle Dojo).
+# Increment this field by 1 for all users in Maryland.
+db.users.updateMany({}, {$inc: {number_of_belts:1} })
 
 # Rename the 'number_of_belts' field to 'belts_earned'
+db.users.updateMany({}, {$rename: {'number_of_belts':'belts_earned'} })
 
 # Remove the 'lucky_number' field.
+db.users.updateMany({}, {$unset: {lucky_number:''} })
 
 # Add a 'updated_on' field, and set the value as the current date.
+db.users.updateMany({}, {$set: {updated_on:new Date()} })
