@@ -1,15 +1,29 @@
 
-module.exports = function route(app, server, mongoose){
-
+module.exports = function route(app, server, mongoose, moment){
+    
     mongoose.connect('mongodb://localhost/users');
     mongoose.Promise = global.Promise;
 
-    // define user model, create db collection
+    // define user model with validations, create db collection
     const UserModel = new mongoose.Schema({
-        name: String,
-        age: Number,
-        note: String
-    }, {timestsamps: true});
+        name: {
+            type: String,
+            required: true,
+            minlength: 3
+        },
+        age: {
+            type: Number,
+            required: true,
+            maxlength: 3,
+            min: 1, max: 150
+        },
+        note: {
+            type: String,
+            required: false,
+            minlength: 1,
+            maxlength: 20
+        }
+    }, {timestamps: true});
 
     mongoose.model('User', UserModel);
     const User = mongoose.model('User');
@@ -20,23 +34,24 @@ module.exports = function route(app, server, mongoose){
         (async () => {
             let context = {};
 
+            // get all users
             context.users = await User.find({}, (err, all) => {
                 if(err){ return console.error(err); }
                 else {
                     let sum = 0;
-                    for (let user of all){
-                        sum+= user.age;
-                    }
+                    for (let user of all){ sum+= user.age; }
                     context.avgAge = Math.floor(sum/all.length);
                     return all;
                 }
-            });
+            }).sort({createdAt: -1}); // queryset sorting
 
+            // get one user (first document in query)
             context.user = await User.findOne({}, (err, one) => {
                 if(err){ return console.error(err); }
                 else { return one; }
             });
 
+            // get count of all User documents
             context.count = await User.count({}, (err, count) => {
                 if(err){ return console.error(err); }
                 else { return count; }
@@ -67,6 +82,14 @@ module.exports = function route(app, server, mongoose){
         res.redirect('/');
     });
 
+    // delete a user
+    app.post('/users/delete/:id', (req, res) => {
+        User.remove({_id:req.params.id}, (err) => {
+            if(err){ return console.error(err); }
+        });
+        res.redirect('/');
+    });
+
     // update a user
     app.post('/users/updateOne/:id', (req, res) => {
         User.findOne({_id:req.params.id}, (err, user) => {
@@ -78,14 +101,6 @@ module.exports = function route(app, server, mongoose){
                 });
                 console.log(user);
             }
-        });
-        res.redirect('/');
-    });
-    
-    // delete a user
-    app.post('/users/delete/:id', (req, res) => {
-        User.remove({_id:req.params.id}, (err) => {
-            if(err){ return console.error(err); }
         });
         res.redirect('/');
     });

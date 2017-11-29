@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quotes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h2>Quotes Page</h2>
+    <p>Read all the quotes</p>
+</header>
+
+<new-row>
+<col-3></col-3>
+
+<col-6>
+
+<% if(quotes){ %>
+<% for(quote of quotes){ %>
+    <blockquote>
+        <p>"<%= quote.text %>"</p>
+        <footer>
+            <%= quote.author %> at 
+            <%= moment(quote.createdAt).format('h:mm') %> on 
+            <%= moment(quote.createdAt).format('LL') %>
+        </footer>
+    </blockquote>
+    <hr>
+<% } %>
+<% } %>
+
+<a href=/><button>Go Back</button></a>
+
+</col-6>
+
+<col-3></col-3>
+</new-row>
+
+</body>
+</html>
