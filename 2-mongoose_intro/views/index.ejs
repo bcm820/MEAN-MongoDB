@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Users Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h2>Users Page</h2>
+    <p>Here are all the users</p>
+</header>
+
+<new-row>
+    
+    <!-- form to add users -->
+    <col-4>
+        <form action=/users method=post>
+            <div><input type=text name=name placeholder=Name></div>
+            <div><input type=text name=age placeholder=Age></div>
+            <input type=submit value='Add User'>
+        </form>
+    </col-4>
+
+    <!-- list of users -->
+    <col-4>
+    <table>
+    <tr><td>Name</td>
+        <td>Age</td></tr>
+    <% for(let user of users){ %>
+    <tr><td><%= user.name %></td>
+        <td><%= user.age %></td></tr>
+    <% } %>
+    </table>
+    </col-4>
+
+    <!-- testing css -->
+    <col-4>
+        <article>
+            <header>This is a panel</header>
+            <div>This is content that goes inside of the panel</div>
+        </article>
+        <ul>
+            <li>Item one</li>
+            <li>Item two</li>
+        </ul>
+    </col-4>
+
+</new-row>
+
+</body>
+</html>
