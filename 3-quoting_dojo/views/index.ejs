@@ -14,20 +14,29 @@
 </header>
 
 <new-row>
+<col-1></col-1>
+<col-1></col-1>
 
-<col-3></col-3>
-
-<col-6>
+<col-4>
     <form action=/quotes method=post>
         <div>Your Name:<input type=text name=author></div>
         <div>Your Quote:<textarea name=text rows=5></textarea></div>
         <input type=submit value='Add my quote'> 
         <a href=/quotes><button-link>Skip to quotes!</button-link></a>
     </form>
-</col-6>
+</col-4>
+
+<col-3>
+<% if(typeof(errors) != 'undefined' ){ %>
+<alert-danger>
+    <strong>Please fix the following errors:</strong><br>
+    - <%= errors.author.message %><br>
+    - <%= errors.text.message %>
+</alert-danger>
+<% } %>
+</col-3>
 
 <col-3></col-3>
-
 </new-row>
 
 </body>

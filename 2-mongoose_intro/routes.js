@@ -1,5 +1,5 @@
 
-module.exports = function route(app, server, mongoose, moment){
+module.exports = function route(app, server, mongoose, moment, session){
     
     mongoose.connect('mongodb://localhost/users');
     mongoose.Promise = global.Promise;
@@ -8,20 +8,21 @@ module.exports = function route(app, server, mongoose, moment){
     const UserModel = new mongoose.Schema({
         name: {
             type: String,
-            required: true,
-            minlength: 3
+            required: [true, 'You must enter a name.'],
+            minlength: [3, 'Name field must be 3 characters min.']
         },
         age: {
             type: Number,
-            required: true,
-            maxlength: 3,
-            min: 1, max: 150
+            required: [true, 'You must enter an age.'],
+            maxlength: [3, 'The age field takes 3 digits max.'],
+            min: [1, 'Enter an age over 1 y.o.'],
+            max: [150, 'Enter an age under 150 y.o.']
         },
         note: {
             type: String,
             required: false,
-            minlength: 1,
-            maxlength: 20
+            minlength: [3, 'Note must be 3 characters min.'],
+            maxlength: [20, 'Note must be 20 characters max.'],
         }
     }, {timestamps: true});
 
@@ -31,7 +32,9 @@ module.exports = function route(app, server, mongoose, moment){
 
     // handle multiple queries in one route
     app.get('/', (req, res) => {
+        
         (async () => {
+            
             let context = {};
 
             // get all users
@@ -58,7 +61,7 @@ module.exports = function route(app, server, mongoose, moment){
             });
 
             res.render('index', context);
-        })().catch(err => console.error(error.stack));
+        })().catch(err => console.error(err.stack));
     });
 
     // add a user
@@ -69,7 +72,10 @@ module.exports = function route(app, server, mongoose, moment){
             note: "none"
         })
         user.save((err) => {
-            if(err){ return console.error(err); }
+            if(err){
+                req.session.flashes = err;
+                console.log(req.session.flashes);
+            }
         })
         res.redirect('/');
     });
@@ -99,7 +105,6 @@ module.exports = function route(app, server, mongoose, moment){
                 user.save((err) => {
                     if(err){ return console.error(err); }
                 });
-                console.log(user);
             }
         });
         res.redirect('/');
