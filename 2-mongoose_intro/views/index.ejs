@@ -10,43 +10,94 @@
 
 <header>
     <h2>Users Page</h2>
-    <p>Here are all the users</p>
+    <p>Here are the users</p>
 </header>
 
 <new-row>
-    
-    <!-- form to add users -->
-    <col-4>
-        <form action=/users method=post>
-            <div><input type=text name=name placeholder=Name></div>
-            <div><input type=text name=age placeholder=Age></div>
-            <input type=submit value='Add User'>
+
+
+<!-- form to add users -->
+<col-4>
+    <form action=/users method=post>
+        <div><input type=text name=name placeholder=Name></div>
+        <div><input type=text name=age placeholder=Age></div>
+        <input type=submit value='Add User'>
+    </form>
+</col-4>
+
+
+<!-- list of users -->
+<col-4>
+<article>
+    <header><strong>User List</strong></header>
+    <div>
+        <% if(users.length > 0){ %>
+            <p><% let i = 1; %>
+            <% for(let user of users){ %>
+                <strong>
+                    <%= i %>. 
+                    <%= user.name %>
+                </strong>
+                (<%= user.age %> y.o.)
+                <br>
+                <% i++ %>
+            <% } %>
+            </p>
+            <small>
+                <%= count %> users total, 
+                avg. age <%= avgAge %> y.o.
+            </small>
+        <% } else { %>
+            None yet!
+        <% } %>
+    </div>
+    <% if(users.length > 0){ %>
+    <footer class=text-center>
+        <form action=/users/deleteAll method=post>
+            <input type=submit value='Delete All Users'>
         </form>
-    </col-4>
-
-    <!-- list of users -->
-    <col-4>
-    <table>
-    <tr><td>Name</td>
-        <td>Age</td></tr>
-    <% for(let user of users){ %>
-    <tr><td><%= user.name %></td>
-        <td><%= user.age %></td></tr>
+    </footer>
     <% } %>
-    </table>
-    </col-4>
+</article>
 
-    <!-- testing css -->
-    <col-4>
-        <article>
-            <header>This is a panel</header>
-            <div>This is content that goes inside of the panel</div>
-        </article>
-        <ul>
-            <li>Item one</li>
-            <li>Item two</li>
-        </ul>
-    </col-4>
+</col-4>
+
+<!-- featured user -->
+<col-4>
+    <article>
+        <header><strong>Featured User</strong></header>
+        <div>
+            <% if(user){ %>
+                <strong>Name:</strong> <%= user.name %>
+                <br><strong>Age:</strong> <%= user.age %>
+                <% if(user.note !== "none"){ %>
+                <br><strong>Note:</strong> <%= user.note %>
+                <% } %>
+            <% } else { %>
+                None featured.
+            <% } %>
+        </div>
+        <% if(user){ %>
+        <footer class=text-center>
+            <form action="/users/delete/<%= user._id %>" method=post>
+                <input type=submit value='Delete User'>
+            </form>
+        </footer>
+        <% } %>
+    </article>
+    <% if(user){ %>
+        <% if(user.note === "none") { %>
+        <col-1></col-1><col-1></col-1>
+        <col-8>
+        <form action="/users/updateOne/<%= user._id %>" method=post class=text-center>
+            <div><textarea name=note></textarea></div>
+            <div><input type=submit value='Add a Note'></div>
+        </form>
+        <col-8>
+        <col-1></col-1><col-1></col-1>
+        <% } %>
+    <% } %>
+</col-4>
 
 </new-row>
 

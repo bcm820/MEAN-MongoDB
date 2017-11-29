@@ -37,6 +37,7 @@ To READ documents that match key criteria:
 
 NOTE: Mongo appends an '_id' field with an ObjectId to every document:
 - "_id" : ObjectId("5a1d7ee823b467d64bc5d80d")
+
 You can sort by creation time by ObjectId because a timestamp is part of the string
 
 To DESTROY all documents that match key criteria:
