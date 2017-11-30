@@ -29,85 +29,86 @@ module.exports = function route(app, server, mongoose, moment, session){
     mongoose.model('User', UserModel);
     const User = mongoose.model('User');
 
+    function getFlashes(req){
+        let flashes;
+        if(req.session.flashes){
+            flashes = req.session.flashes;
+            req.session.destroy();
+        }
+        else { flashes = {}; }
+        return flashes;
+    }
 
     // handle multiple queries in one route
     app.get('/', (req, res) => {
         
         (async () => {
-            
-            let context = {};
 
             // get all users
-            context.users = await User.find({}, (err, all) => {
-                if(err){ return console.error(err); }
-                else {
-                    let sum = 0;
-                    for (let user of all){ sum+= user.age; }
-                    context.avgAge = Math.floor(sum/all.length);
-                    return all;
-                }
+            let users = await User.find({}, (err, all) => {
+                if(err){ console.error(err); }
+                else { return all; }
             }).sort({createdAt: -1}); // queryset sorting
 
             // get one user (first document in query)
-            context.user = await User.findOne({}, (err, one) => {
-                if(err){ return console.error(err); }
+            let user = await User.findOne({}, (err, one) => {
+                if(err){ console.error(err); }
                 else { return one; }
             });
 
             // get count of all User documents
-            context.count = await User.count({}, (err, count) => {
-                if(err){ return console.error(err); }
+            let count = await User.count({}, (err, count) => {
+                if(err){ console.error(err); }
                 else { return count; }
             });
 
-            res.render('index', context);
+            // calculate avg age of users
+            let sum = 0;
+            for (let user of users){ sum+= user.age; }
+            let avgAge = Math.floor(sum/users.length);
+
+            // get flashes if errors
+            let flashes = getFlashes(req);
+
+            return res.render('index', {users, user, avgAge, count, flashes});
         })().catch(err => console.error(err.stack));
     });
 
     // add a user
     app.post('/users', (req, res) => {
-        const user = new User({
-            name: req.body.name,
-            age: req.body.age,
-            note: "none"
-        })
+        const user = new User(req.body)
         user.save((err) => {
-            if(err){
-                req.session.flashes = err;
-                console.log(req.session.flashes);
-            }
+            if(err){ req.session.flashes = err; }
+            return res.redirect('/');
         })
-        res.redirect('/');
     });
 
     // delete all users
     app.post('/users/deleteAll', (req, res) => {
         User.remove({}, (err) => {
-            if(err){ return console.error(err); }
+            if(err){ console.error(err); }
+            return res.redirect('/');
         });
-        res.redirect('/');
     });
 
     // delete a user
     app.post('/users/delete/:id', (req, res) => {
         User.remove({_id:req.params.id}, (err) => {
-            if(err){ return console.error(err); }
+            if(err){ console.error(err); }
+            return res.redirect('/');
         });
-        res.redirect('/');
     });
 
     // update a user
     app.post('/users/updateOne/:id', (req, res) => {
         User.findOne({_id:req.params.id}, (err, user) => {
-            if(err){ return console.error(err); }
-            else {
-                user.note = req.body.note;
-                user.save((err) => {
-                    if(err){ return console.error(err); }
-                });
-            }
+            if(err){ console.error(err); }
+            user.note = req.body.note;
+            user.save((err) => {
+                if(err){ req.session.flashes = err; }
+                return res.redirect('/');
+            });
         });
-        res.redirect('/');
     });
 
 };

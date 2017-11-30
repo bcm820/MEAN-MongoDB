@@ -42,11 +42,7 @@ module.exports = function route(app, server, mongoose, moment, session){
         Quote.find({}, (err, quotes) => {
             if(err){ return console.error(err); }
             else {
-                let context = {
-                    moment:moment,
-                    quotes:quotes
-                };
-                res.render('quotes', context);
+                res.render('quotes', {quotes, moment});
             }
         }).sort({createdAt: -1});
     });

@@ -23,10 +23,7 @@ module.exports = function route(app, server, mongoose, moment, session){
     app.get('/', (req, res) => {
         Rapper.find({}, (err, rappers) => {
             if(err){ return console.error(err); }
-            let context = {}
-            context.moment = moment;
-            context.rappers = rappers;
-            res.render('index', context);
+            res.render('index', {rappers, moment});
         }).sort({votes: -1});
     })
 
@@ -38,13 +35,7 @@ module.exports = function route(app, server, mongoose, moment, session){
 
     // post: add a rapper
     app.post('/rapper/add', (req, res) => {
-        let rapper = new Rapper({
-            name: req.body.name,
-            amtOfHits: req.body.amtOfHits,
-            topAlbum: req.body.topAlbum,
-            releaseDate: req.body.releaseDate,
-            votes: 0
-        })
+        let rapper = new Rapper(req.body)
         rapper.save((err) => {
             if(err){
                 req.session.flashes = err;
@@ -60,12 +51,7 @@ module.exports = function route(app, server, mongoose, moment, session){
             if(err){ return console.error(err); }
             else { 
                 let flashes = getFlashes(req);
-                let context = {
-                    rapper:rapper,
-                    flashes:flashes,
-                    moment:moment
-                }
-                res.render('show', context);
+                res.render('show', {rapper, flashes, moment});
             }
         });
     });

@@ -21,9 +21,20 @@
     <form action=/users method=post>
         <div><input type=text name=name placeholder=Name></div>
         <div><input type=text name=age placeholder=Age></div>
+        <input type=hidden name=note value=none>
         <input type=submit value='Add User'>
     </form>
 
+    <% if(typeof(flashes.errors) != 'undefined' ){ %>
+    <% if(typeof(flashes.errors.note) === 'undefined') { %>
+    <alert-danger>
+    <strong>Please fix the following errors:</strong><br>
+    <% for(let x in flashes.errors){ %>
+        <%= flashes.errors[x].message %><br>
+    <% } %>
+    </alert-danger>
+    <% } %>
+    <% } %>
 
 </col-4>
 
@@ -95,6 +106,14 @@
             <div><textarea name=note></textarea></div>
             <div><input type=submit value='Add a Note'></div>
         </form>
+        <% if(typeof(flashes.errors.note) != 'undefined' ){ %>
+        <alert-danger>
+            <strong>Error: </strong>
+            <% for(let x in flashes.errors){ %>
+                <%= flashes.errors[x].message %><br>
+            <% } %>
+        </alert-danger>
+        <% } %>
         <col-8>
         <col-1></col-1><col-1></col-1>
         <% } %>
