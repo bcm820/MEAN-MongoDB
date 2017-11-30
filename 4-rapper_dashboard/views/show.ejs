@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rapper Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header class=text-center>
+    <h2>Rapper Dashboard</h2>
+    <p>Rank Your Rappers!</p>
+</header>
+
+<new-row>
+<col-4></col-4>
+
+<col-4>
+    <article>
+        <header><strong><h4><%= rapper.name %></h4></strong></header>
+        <section>
+            <strong>Number of Singles:</strong> <%= rapper.amtOfHits %>
+            <br><strong>Top Album:</strong> <%= rapper.topAlbum %>
+            <br><strong>Release Date:</strong> <%= moment(rapper.releaseDate).format('LL') %>
+            <br><strong>Votes: <%= rapper.votes %></strong>
+        </section>
+        <footer class=text-center>
+            <form action="/rapper/<%= rapper._id %>/delete" method=post>
+                <input type=submit value='Delete Rapper'> 
+                <a href=/><button-link>Go Back</button-link></a>
+            </form>
+        </footer>
+    </article>
+</col-4>
+
+<col-4></col-4>
+</new-row>
+
+</body>
+</html>

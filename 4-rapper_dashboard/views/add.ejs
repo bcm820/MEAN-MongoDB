@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rapper Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header class=text-center>
+    <h2>Rapper Dashboard</h2>
+    <p>Rank Your Rappers!</p>
+</header>
+<new-row>
+<col-4></col-4>
+
+<col-4>
+    <article>
+    <header><strong>Add a Rapper</strong></header>
+    <form action=/rapper/add/ method=post>
+        <section>
+        <div>Name<input type=text name=name class=input-sm></div>
+        <div>Number of Singles<input type=number name=amtOfHits min=1 class=input-sm></div>
+        <div>Top Album<input type=text name=topAlbum class=input-sm></div>
+        <div>Date Released<input type=date name=releaseDate class=input-sm></div>
+        </section>
+    <footer class=text-center>
+        <input type=submit value='Add Rapper'>
+        <a href=/><button-link>Go Back</button-link></a>
+    </footer>
+    </form>
+    </article>
+</col-4>
+
+<col-3>
+    <% if(typeof(errors) != 'undefined' ){ %>
+    <alert-danger>
+    <strong>Please fix the following errors:</strong><br>
+    <% for(let x in errors){ %>
+        <%= errors[x].message %><br>
+    <% } %>
+    </alert-danger>
+    <% } %>
+</col-3>
+
+</new-row>
+</body>
+</html>

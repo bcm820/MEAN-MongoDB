@@ -105,3 +105,6 @@ To remove from an array via location, use 1 to pop last, -1 to pop first
 To remove from an array via value:
 - db.{collection}.updateOne({key:value}, {$pull: {array_key: value}})
 - e.g. db.users.updateOne({'username':'bcmendoza'}, {$pull: {'interests':'biking'} })
+
+
+

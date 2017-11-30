@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rapper Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header class=text-center>
+    <h2>Rapper Dashboard</h2>
+    <p>Rank Your Rappers!</p>
+</header>
+<new-row>
+
+<col-4>
+<list-group>
+    <a href=/rapper/add>Add a Rapper</a>
+    <% if(rappers.length > 1){ %>
+    <% let r = Math.floor((Math.random() * rappers.length)); %>
+    <a href="/rapper/<%=rappers[r]._id %>">Show a Random Rapper</a>
+    <% } %>
+</list-group>
+</col-4>
+
+<col-8>
+<article>
+<header><strong><h4>All the Rappers</h4></strong></header>
+<section>
+<% if(rappers.length > 0){ %>
+<table>
+    <tr>
+        <td><strong>Rank</strong></td>
+        <td>
+            <strong>Rapper</strong>
+        </td>
+        <td><strong>Added</strong></td>
+        <td><strong>Votes</strong></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <% let rank = 1; %>
+    <% for(let rapper of rappers){ %>
+    <tr>
+        <td><%= rank %></td>
+        <td>
+            <strong><a href="/rapper/<%=rapper._id %>"><%=rapper.name %></a></strong>
+        </td>
+        <td><%= moment(rapper.createdAt).format('L') %></td>
+        <td><%=rapper.votes %></td>
+        <td>
+            <form action="/rapper/<%= rapper._id %>/voteup" method=post>
+                <input type=submit value='Up'>
+            </form>
+        </td>
+        <td>
+            <form action="/rapper/<%= rapper._id %>/votedown" method=post>
+                <input type=submit value='Down'>
+            </form>
+        </td>
+    </tr><% rank++ %>
+    <% } %>
+</table>
+<% } else { %>
+<h5>Be the first to add a rapper to the list!</h5>
+<% } %>
+</section>
+</article>
+</col-8>
+
+</new-row>
+</body>
+</html>
