@@ -11,9 +11,9 @@ const bp = require(`body-parser`);
 app.use(bp.urlencoded({extended: true}));
 
 // config ejs, views, and static content
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, './client/views'));
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, './static')));
+app.use(express.static(path.join(__dirname, './client/static')));
 
 // require mongoose
 require(`./server/config/mongoose`);
