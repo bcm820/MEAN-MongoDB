@@ -46,4 +46,4 @@ const RapperSchema = new mongoose.Schema({
     
 }, {timestamps: true});
 
-const Rapper = mongoose.model('Rapper', RapperSchema);
+mongoose.model('Rapper', RapperSchema);
