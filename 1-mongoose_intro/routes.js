@@ -42,36 +42,34 @@ module.exports = function route(app, server, mongoose, moment, session){
     // handle multiple queries in one route
     app.get('/', (req, res) => {
         
+        // The ES7 Async/Await Approach
+        
         (async () => {
 
-            // get all users
             let users = await User.find({}, (err, all) => {
                 if(err){ console.error(err); }
                 else { return all; }
             }).sort({createdAt: -1}); // queryset sorting
 
-            // get one user (first document in query)
             let user = await User.findOne({}, (err, one) => {
                 if(err){ console.error(err); }
                 else { return one; }
             });
 
-            // get count of all User documents
             let count = await User.count({}, (err, count) => {
                 if(err){ console.error(err); }
                 else { return count; }
             });
 
-            // calculate avg age of users
             let sum = 0;
             for (let user of users){ sum+= user.age; }
             let avgAge = Math.floor(sum/users.length);
 
-            // get flashes if errors
             let flashes = getFlashes(req);
 
             return res.render('index', {users, user, avgAge, count, flashes});
         })().catch(err => console.error(err.stack));
+
     });
 
     // add a user
