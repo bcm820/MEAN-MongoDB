@@ -1,6 +1,6 @@
 
-const mongoose = require(`mongoose`);
-const moment = require(`moment`);
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 // date validators
 function invalidDate(date) { return moment(date).isValid() }
@@ -47,4 +47,3 @@ const RapperSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 const Rapper = mongoose.model('Rapper', RapperSchema);
-// mongoose.Promise = global.Promise;

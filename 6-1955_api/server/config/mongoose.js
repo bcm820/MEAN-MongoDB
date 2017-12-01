@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 // connect mongoose and configure path
-mongoose.connect('mongodb://localhost/rappers');
+mongoose.connect('mongodb://localhost/1995_api');
 const models_path = path.join(__dirname, './../models');
 mongoose.Promise = global.Promise;
 
