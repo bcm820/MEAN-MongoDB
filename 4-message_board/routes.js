@@ -30,9 +30,7 @@ module.exports = function route(app, server, mongoose, session){
         Post.find({})
             .populate('comments')
             .exec((err, posts) => {
-                if(err) { console.log(err); }
                 let flashes = getFlashes(req);
-                console.log(flashes);
                 res.render('index', {posts, flashes})
         });
     });
@@ -60,7 +58,6 @@ module.exports = function route(app, server, mongoose, session){
                 if(err) { req.session.flashes = err; }
                 post.comments.push(comment);
                 post.save((err) => {
-                    if(err){ console.log(err); }
                     return res.redirect('/');
                 });
             });
