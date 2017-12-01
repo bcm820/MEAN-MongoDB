@@ -27,7 +27,8 @@
         </section>
         <footer class=text-center>
             <form action="/rapper/<%= rapper._id %>/delete" method=post>
-                <input type=submit value='Delete Rapper'> 
+                <a href="/rapper/<%= rapper._id %>/edit"><button-link>Edit</button-link></a>
+                <input type=submit value='Delete'> 
                 <a href=/><button-link>Go Back</button-link></a>
             </form>
         </footer>

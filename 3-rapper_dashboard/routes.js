@@ -45,18 +45,33 @@ module.exports = function route(app, server, mongoose, moment, session){
         });
     });
 
-    // show and edit one rapper
+    // show rapper page
     app.get('/rapper/:id', (req, res) => {
         Rapper.findOne({_id:req.params.id}, (err, rapper) => {
             if(err){ return console.error(err); }
-            else { 
-                let flashes = getFlashes(req);
-                res.render('show', {rapper, flashes, moment});
-            }
+            else { res.render('show', {rapper, moment}); }
         });
     });
 
-    // post: edit a rapper (vote)
+    // edit rapper page
+    app.get('/rapper/:id/edit', (req, res) => {
+        Rapper.findOne({_id:req.params.id}, (err, rapper) => {
+            if(err){ return console.error(err); }
+            let flashes = getFlashes(req);
+            res.render('edit', {rapper, moment, flashes});
+        });
+    });
+
+    // post: edit rapper
+    app.post('/rapper/:id/edit', (req, res) => {
+        console.log(req.body);
+        Rapper.findOneAndUpdate({_id:req.params.id}, req.body, (err, rapper) => {
+            if(err){ req.session.flashes = err; }
+            res.redirect(`/rapper/${rapper._id}/edit`);
+        });
+    });
+
+    // post: upvote rapper
     app.post('/rapper/:id/voteup', (req, res) => {
         Rapper.findOne({_id:req.params.id}, (err, rapper) => {
             rapper.votes += 1;
@@ -67,14 +82,16 @@ module.exports = function route(app, server, mongoose, moment, session){
         });
     });
 
-    // post: edit a rapper (vote)
+    // post: downvote rapper
     app.post('/rapper/:id/votedown', (req, res) => {
         Rapper.findOne({_id:req.params.id}, (err, rapper) => {
-            rapper.votes -= 1;
-            rapper.save((err) => {
-                if(err){ return console.error(err); }
-                res.redirect(`/`);
-            })
+            if(rapper.votes > 0){
+                rapper.votes -= 1;
+                rapper.save((err) => {
+                    if(err){ return console.error(err); }
+                    res.redirect(`/`);
+                })
+            }
         });
     });
 

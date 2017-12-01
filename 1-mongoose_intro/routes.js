@@ -105,7 +105,7 @@ module.exports = function route(app, server, mongoose, moment, session){
             if(err){ console.error(err); }
             user.note = req.body.note;
             user.save((err) => {
-                if(err){ req.session.flashes = err; }
+                if(err){ console.error(err); }
                 return res.redirect('/');
             });
         });

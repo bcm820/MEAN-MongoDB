@@ -106,14 +106,6 @@
             <div><textarea name=note></textarea></div>
             <div><input type=submit value='Add a Note'></div>
         </form>
-        <% if(typeof(flashes.errors.note) != 'undefined' ){ %>
-        <alert-danger>
-            <strong>Error: </strong>
-            <% for(let x in flashes.errors){ %>
-                <%= flashes.errors[x].message %><br>
-            <% } %>
-        </alert-danger>
-        <% } %>
         <col-8>
         <col-1></col-1><col-1></col-1>
         <% } %>

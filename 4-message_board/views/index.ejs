@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Dojo Message Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <!-- <style>*{outline: 1px solid red}</style> -->
+</head>
+<body>
+<header class=text-center><h2>The Dojo Message Dashboard</h2></header>
+
+<new-row>
+<!-- START: Post Message (9 + 3) -->
+<col-3></col-3>
+<col-6>
+    <form action=/post method=post>
+        <div><input type=text name=name placeholder=Name></div>
+        <div><textarea name=text></textarea></div>
+        <div class=text-right><input type=submit value='Post Message'></div>
+    </form>
+</col-6>
+<col-3>
+    <% if(typeof(flashes.errors) !== 'undefined'){ %>
+        <alert-danger>
+        <strong>Please fix your errors:</strong><br>
+        <% for(let x in flashes.errors){ %>
+            <%= flashes.errors[x].message %><br>
+        <% } %>
+        </alert-danger>
+    <% } %>
+</col-3>
+<!-- END: Post Message -->
+</new-row>
+
+<% for(post of posts){ %>
+<new-row><col-12><hr></col-12></new-row>
+<new-row>
+<col-3></col-3>
+<!-- START: List Posts & Comments (4) -->
+<col-4>
+    <blockquote>
+        <strong><%=post.name %>:</strong> <%=post.text %>
+        <% for(comment of post.comments){ %>
+        <footer><%=comment.name %>: <%=comment.text %></footer>
+        <% } %>
+    </blockquote>
+</col-4>
+<!-- START: Post Comment (3 + 3) -->
+<col-3>
+    <form action="/comment/<%=post.id %>" method=post>
+        <div><input type=text name=name placeholder=Name></div>
+        <div><textarea name=text></textarea></div>
+        <div class=text-right><input type=submit value='Post Comment'></div>
+    </form>
+</col-3>
+<!-- End: Post Comment -->
+<col-1></col-1>
+<col-1></col-1>
+</new-row>
+<% } %>
+</body>
+</html>
+
+
