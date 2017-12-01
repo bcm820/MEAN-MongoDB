@@ -13,7 +13,7 @@ module.exports = {
 
     findOne(req, res){
         Person.findOne(req.params)
-        .then(person => { res.json(person ? person: 'No one found!'); })
+        .then(person => { res.json(person ? person : 'No one found!'); })
         .catch(err => res.json(err));
     },
 

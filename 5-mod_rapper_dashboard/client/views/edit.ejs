@@ -34,11 +34,11 @@
 </col-4>
 
 <col-3>
-    <% if(typeof(errors) != 'undefined' ){ %>
+    <% if(typeof(flashes.errors) != 'undefined' ){ %>
     <alert-danger>
     <strong>Please fix the following errors:</strong><br>
-    <% for(let x in errors){ %>
-        <%= errors[x].message %><br>
+    <% for(let x in flashes.errors){ %>
+        <%= flashes.errors[x].message %><br>
     <% } %>
     </alert-danger>
     <% } %>

@@ -5,8 +5,8 @@ module.exports = (app) => {
 
     // GET
     app.get('/', rappers.findAll);
-    app.get('/rapper/:id', rappers.findOne);
     app.get('/rapper/add', rappers.addForm);
+    app.get('/rapper/:id', rappers.findOne);
     app.get('/rapper/:id/edit', rappers.editForm);
 
     // POST
