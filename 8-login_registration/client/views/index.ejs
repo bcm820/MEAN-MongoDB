@@ -14,23 +14,12 @@
 </header>
 
 <new-row>
-<col-2></col-2>
 
+<col-1></col-1>
 <col-8>
-
-<article>
-    <header>Welcome, <%=user.name%></header>
-    <section>
-        <form action="/logout" method=post>
-        <input type=submit value='Logout'>
-        </form>
-    </section>
-</article>
-
 <article>
 <header><strong><h4>User Dashboard</h4></strong></header>
 <section>
-
 <table>
     <tr>
         <td><strong>Name</strong></td>
@@ -54,12 +43,23 @@
     </tr>
     <% } %>
 </table>
-
 </section>
 </article>
 </col-8>
 
+<col-3>
+<col-10>
+<article>
+    <header>
+        <strong><h4>Welcome, <%=user.first%></h4></strong>
+        <form action="/logout" method=post>
+            <input type=submit value='Logout'>
+        </form>
+    </header>
+</article>
+</col-10>
 <col-2></col-2>
+</col-3>
 </new-row>
 </body>
 </html>

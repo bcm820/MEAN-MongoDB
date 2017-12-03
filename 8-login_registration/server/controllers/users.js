@@ -25,7 +25,7 @@ function getUserinfo(req){
     return userInfo
 }
 
-// remove moment
+// remove
 module.exports = {
 
     // GET
@@ -47,7 +47,7 @@ module.exports = {
                 User.find({})
                 .then(users => res.render('index', {user, users}))
             });
-        } else { res.redirect('/'); }
+        } else { return res.redirect('/'); }
     },
 
     show(req, res){
@@ -65,24 +65,33 @@ module.exports = {
 
     // POST
     auth(req, res){
-        User.findOne({email:req.body.email})
-        .then(user => {
-            user.checkPW(req.body._pw)
-            .then(confirmed => {
-                if(confirmed){
-                    req.session.uid = user._id;
-                    res.redirect('/site/');
-                }
-            })
-            .catch(err => {
-                req.session.flashes = err;
-                return res.redirect('/');
-            });
-        })
-        .catch(err => {
+        let err = {};
+        if(req.body.email === '' || req.body._pw === ''){
+            err = {errors:{auth:{message:'Both fields required'}}}
             req.session.flashes = err;
-            return res.redirect('/');
-        });
+            return res.redirect('/')
+        }
+        else {
+            User.findOne({email:req.body.email}, (err, user) => {
+                if(user === null){
+                    err = {errors:{auth:{message:'Email not found'}}}
+                    req.session.flashes = err;
+                    return res.redirect('/')
+                }
+                else {
+                    user.checkPW(req.body._pw, (err, good) => {
+                        if(err){
+                            req.session.flashes = err;
+                            return res.redirect('/')
+                        }
+                        else if(good){
+                            req.session.uid = user._id;
+                            return res.redirect('/site/')
+                        }
+                    });
+                }
+            });
+        }
     },
 
     create(req, res){
@@ -90,9 +99,10 @@ module.exports = {
         user.save()
         .then(user => {
             req.session.uid = user._id;
-            res.redirect('/site/')
+            return res.redirect('/site/')
         })
         .catch(err => {
+            console.log(err);
             req.session.flashes = err;
             req.session.userInfo = user;
             return res.redirect('/join');
@@ -112,6 +122,11 @@ module.exports = {
     remove(req, res){
         User.findByIdAndRemove({_id:req.params.id})
         .then(res.redirect('/site/'));
+    },
+
+    logout(req, res){
+        req.session.destroy();
+        return res.redirect('/');
     }
 
 }

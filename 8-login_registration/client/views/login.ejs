@@ -21,7 +21,7 @@
     <form action=/login method=post>
         <section>
         <div><input type=text name=email class=input-sm placeholder=Email></div>
-        <div><input type=password name=password min=8 max=32 class=input-sm placeholder=Password></div>
+        <div><input type=password name=_pw min=8 max=32 class=input-sm placeholder=Password></div>
         </section>
     <footer class=text-center>
         <input type=submit value='Login'>
@@ -32,14 +32,14 @@
 </col-4>
 
 <col-3>
-    <% if(typeof(errors) != 'undefined' ){ %>
-    <alert-danger>
-    <strong>Please fix the following errors:</strong><br>
-    <% for(let x in errors){ %>
-        <%= errors[x].message %><br>
+<% if(flashes.length !== 0) { %>
+<alert-danger>
+    <strong>Cannot authenticate:</strong><br>
+    <% for(let flash of flashes.reverse()){ %>
+        - <%=flash%><br>
     <% } %>
-    </alert-danger>
-    <% } %>
+</alert-danger>
+<% } %>
 </col-3>
 
 </new-row>

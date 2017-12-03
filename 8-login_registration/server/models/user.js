@@ -77,21 +77,22 @@ UserSchema.virtual('age').get(function() {
     return moment().diff(this.bday, 'years');
 });
 
-// hash password and clear pwconf prior to save
+// hash password and reset pwconf
 UserSchema.pre('save', function(next){
-    bcrypt.hash(this._pw, 10, function(err, hashedPass){
-        this._pw = hashedPass;
-        this._pwconf = undefined;
-        this.save(null)
+    const user = this;
+    bcrypt.hash(this._pw, 10, (err, hashedPass) => {
+        user._pw = hashedPass;
+        user._pwconf = undefined
         next();
     });
 });
 
 // check password prior to login - call as user.checkPW(pw);
-UserSchema.methods.checkPW = function(password){
-    bcrypt.compare(password, this._pw)
-    .then(confirmed => {return confirmed})
-    .catch(err => {return err});
+UserSchema.methods.checkPW = function(password, cb){
+    bcrypt.compare(password, this._pw, (err, good) => {
+        if(err){ return cb(err) }
+        else { cb(null, good); }
+    });
 }
 
 mongoose.model('User', UserSchema);

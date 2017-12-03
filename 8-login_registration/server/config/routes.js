@@ -15,5 +15,6 @@ module.exports = (app) => {
     app.post('/join', users.create);
     app.post('/site/users/:id/edit', users.update);
     app.post('/site/users/:id/remove', users.remove);
+    app.post('/logout', users.logout);
 
 };
