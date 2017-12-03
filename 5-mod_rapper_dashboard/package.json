@@ -1,15 +1,12 @@
 {
   "dependencies": {
     "body-parser": "^1.18.2",
-    "bootstrap-sass": "^3.3.7",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "fs": "^0.0.1-security",
-    "jshint": "^2.9.5",
     "moment": "^2.19.3",
     "mongoose": "^4.13.5",
-    "path": "^0.12.7",
-    "socket.io": "^2.0.4"
+    "path": "^0.12.7"
   }
 }
