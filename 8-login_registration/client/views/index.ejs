@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header class=text-center>
+    <h2>User Site</h2>
+    <p>Login, Join, Show, Edit, Etc.</p>
+</header>
+
+<new-row>
+<col-2></col-2>
+
+<col-8>
+
+<article>
+    <header>Welcome, <%=user.name%></header>
+    <section>
+        <form action="/logout" method=post>
+        <input type=submit value='Logout'>
+        </form>
+    </section>
+</article>
+
+<article>
+<header><strong><h4>User Dashboard</h4></strong></header>
+<section>
+
+<table>
+    <tr>
+        <td><strong>Name</strong></td>
+        <td><strong>Email</strong></td>
+        <td><strong>Birthday</strong></td>
+        <td><strong>Age</strong></td>
+        <td><strong>Actions</strong></td>
+    </tr>
+    <% for(let user of users){ %>
+    <tr>
+        <td><strong><a href="/site/users/<%=user._id %>"><%=user.name%></a></strong></td>
+        <td><%=user.email%></td>
+        <td><%=user.bday%></td>
+        <td><%=user.age%></td>
+        <td>
+            <form action="/site/users/<%=user._id %>/remove" method=post>
+            <a href="/site/users/<%=user._id %>/edit"><button-link>Edit</button-link></a>
+            <input type=submit value='Delete'>
+            </form>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
+</section>
+</article>
+</col-8>
+
+<col-2></col-2>
+</new-row>
+</body>
+</html>

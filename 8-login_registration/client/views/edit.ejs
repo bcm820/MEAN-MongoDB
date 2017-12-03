@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header class=text-center>
+    <h2>Rapper Dashboard</h2>
+    <p>Rank Your Rappers!</p>
+</header>
+<new-row>
+<col-4></col-4>
+
+<col-4>
+    <article>
+    <header><strong>Edit <%=user.fullName%></strong></header>
+    <form action="/site/users/<%=user._id%>/edit" method=post>
+        <section>
+        <div><input type=text name=email class=input-sm value="<%=user.email%>"></div>
+        <div><input type=text name=firstName min=3 class=input-sm value="<%=user.firstName%>"></div>
+        <div><input type=text name=lastName min=3 class=input-sm value="<%=user.lastName%>"></div>
+        <div>Birthday<input type=date name=birthday class=input-sm value="<%=user.birthday%>"></div>
+        </section>
+    <footer class=text-center>
+        <input type=submit value='Edit <%=user.firstName%>'>
+        <a href="/site/users/<%=user._id%>/"><button-link>Go Back</button-link></a>
+    </footer>
+    </form>
+    </article>
+</col-4>
+
+<col-3>
+    <% if(typeof(flashes.errors) != 'undefined'){ %>
+    <alert-danger>
+    <strong>Please fix the following errors:</strong><br>
+    <% for(let x in flashes.errors){ %>
+        <%= flashes.errors[x].message %><br>
+    <% } %>
+    </alert-danger>
+    <% } %>
+</col-3>
+
+</new-row>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header class=text-center>
+    <h2>User Site</h2>
+    <p>Login, Join, Show, Edit, Etc.</p>
+</header>
+<new-row>
+<col-4></col-4>
+
+<col-4>
+    <article>
+    <header><strong>Login</strong></header>
+    <form action=/login method=post>
+        <section>
+        <div><input type=text name=email class=input-sm placeholder=Email></div>
+        <div><input type=password name=password min=8 max=32 class=input-sm placeholder=Password></div>
+        </section>
+    <footer class=text-center>
+        <input type=submit value='Login'>
+        <a href="/join"><button-link>Join Our Site</button-link></a>
+    </footer>
+    </form>
+    </article>
+</col-4>
+
+<col-3>
+    <% if(typeof(errors) != 'undefined' ){ %>
+    <alert-danger>
+    <strong>Please fix the following errors:</strong><br>
+    <% for(let x in errors){ %>
+        <%= errors[x].message %><br>
+    <% } %>
+    </alert-danger>
+    <% } %>
+</col-3>
+
+</new-row>
+</body>
+</html>
