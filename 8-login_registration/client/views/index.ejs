@@ -15,50 +15,46 @@
 
 <new-row>
 
-<col-1></col-1>
-<col-8>
-<article>
-<header><strong><h4>User Dashboard</h4></strong></header>
-<section>
-<table>
-    <tr>
-        <td><strong>Name</strong></td>
-        <td><strong>Email</strong></td>
-        <td><strong>Birthday</strong></td>
-        <td><strong>Age</strong></td>
-        <td><strong>Actions</strong></td>
-    </tr>
-    <% for(let user of users){ %>
-    <tr>
-        <td><strong><a href="/site/users/<%=user._id %>"><%=user.name%></a></strong></td>
-        <td><%=user.email%></td>
-        <td><%=user.bday%></td>
-        <td><%=user.age%></td>
-        <td>
-            <form action="/site/users/<%=user._id %>/remove" method=post>
-            <a href="/site/users/<%=user._id %>/edit"><button-link>Edit</button-link></a>
-            <input type=submit value='Delete'>
-            </form>
-        </td>
-    </tr>
-    <% } %>
-</table>
-</section>
-</article>
-</col-8>
+<col-9>
+    <article>
+    <header><strong><h4>User Dashboard</h4></strong></header>
+    <section>
+    <table>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td><strong>Email</strong></td>
+            <td><strong>Birthday</strong></td>
+            <td><strong>Age</strong></td>
+            <td><strong>Actions</strong></td>
+        </tr>
+        <% for(let user of users){ %>
+        <tr>
+            <td><strong><a href="/site/users/<%=user._id %>"><%=user.name%></a></strong></td>
+            <td><%=user.email%></td>
+            <td><%=user.bday_short%></td>
+            <td><%=user.age%></td>
+            <td>
+                <form action="/site/users/<%=user._id %>/remove" method=post>
+                <a href="/site/users/<%=user._id %>/edit"><button-link>Edit</button-link></a>
+                <input type=submit value='Delete'>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    </section>
+    </article>
+</col-9>
 
 <col-3>
-<col-10>
 <article>
-    <header>
+    <header class=text-center>
         <strong><h4>Welcome, <%=user.first%></h4></strong>
         <form action="/logout" method=post>
             <input type=submit value='Logout'>
         </form>
     </header>
 </article>
-</col-10>
-<col-2></col-2>
 </col-3>
 </new-row>
 </body>

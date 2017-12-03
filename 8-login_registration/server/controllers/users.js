@@ -5,14 +5,15 @@ const User = mongoose.model('User');
 
 // additional requires
 const session = require('express-session');
-const moment = require('moment');
 
 // create and destroy flash messages
 function getFlashes(req){
     let flashes = [];
     if(req.session.flashes){
         for(let x in req.session.flashes.errors){
-            flashes.push(req.session.flashes.errors[x].message);
+            if(req.session.flashes.errors[x].message !== undefined){
+                flashes.push(req.session.flashes.errors[x].message);
+            }
         } req.session.flashes = null;
     } return flashes;
 }
@@ -25,7 +26,6 @@ function getUserinfo(req){
     return userInfo
 }
 
-// remove
 module.exports = {
 
     // GET
@@ -52,7 +52,7 @@ module.exports = {
 
     show(req, res){
         User.findById({_id:req.params.id})
-        .then(user => res.render('show', {user, moment}));
+        .then(user => res.render('show', {user}));
     },
 
     edit(req, res){
@@ -65,16 +65,21 @@ module.exports = {
 
     // POST
     auth(req, res){
-        let err = {};
+        let eLogin = {}, pLogin = {}, err = {errors:{eLogin,pLogin}};
         if(req.body.email === '' || req.body._pw === ''){
-            err = {errors:{auth:{message:'Both fields required'}}}
+            if(req.body.email === ''){
+                err.errors.eLogin.message = 'Enter your email';
+            }
+            if(req.body._pw === ''){
+                err.errors.pLogin.message = 'Enter your password';
+            }
             req.session.flashes = err;
             return res.redirect('/')
         }
         else {
             User.findOne({email:req.body.email}, (err, user) => {
                 if(user === null){
-                    err = {errors:{auth:{message:'Email not found'}}}
+                    err = {errors:{eLogin:{message:'Email not found'}}}
                     req.session.flashes = err;
                     return res.redirect('/')
                 }
@@ -102,7 +107,6 @@ module.exports = {
             return res.redirect('/site/')
         })
         .catch(err => {
-            console.log(err);
             req.session.flashes = err;
             req.session.userInfo = user;
             return res.redirect('/join');

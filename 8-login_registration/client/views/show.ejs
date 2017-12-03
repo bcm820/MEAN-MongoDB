@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Rapper Dashboard</title>
+    <title>User Site</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/style.css" rel="stylesheet">
@@ -22,8 +22,8 @@
         <section>
         <table>
             <tr><td>Email: </td><td><%=user.email%></td></tr>
-            <tr><td>Birthday: </td><td><%=moment(user.bday).format('LL')%></td></tr>
-            <tr><td>Age: </td><td><%=user.age%></td></tr>
+            <tr><td>Birthday: </td><td><%=user.bday_full%></td></tr>
+            <tr><td>Age: </td><td><%=user.age_full%></td></tr>
         </table>
         </section>
         <footer class=text-center>

@@ -46,6 +46,7 @@ const UserSchema = new mongoose.Schema({
     bday: { // can also query user.age
         type: Date,
         required: [true, 'Birthday required'],
+        default: moment(),
         get: (date) => { return moment(date).format('YYYY-MM-DD'); },
         validate: function(bday){
             if(moment(bday).isValid() === false){
@@ -67,6 +68,16 @@ const UserSchema = new mongoose.Schema({
 // unique plugin
 UserSchema.plugin(uniqueCheck, {message: 'Duplicate email found' });
 
+// virtual full birthday format
+UserSchema.virtual('bday_short').get(function(){
+    return moment(this.bday).format('MM/DD/YY');
+});
+
+// virtual full birthday format
+UserSchema.virtual('bday_full').get(function(){
+    return moment(this.bday).format('dddd, MMMM Do YYYY');
+});
+
 // virtual fullName attr
 UserSchema.virtual('name').get(function(){
     return `${this.first} ${this.last}`;
@@ -75,6 +86,17 @@ UserSchema.virtual('name').get(function(){
 // virtual age attr
 UserSchema.virtual('age').get(function() {
     return moment().diff(this.bday, 'years');
+});
+
+// virtual age attr
+UserSchema.virtual('age_full').get(function() {
+    let bday = moment(this.bday);
+    let years = moment().diff(bday, 'years');
+    bday.add(years, 'years');
+    let months = moment().diff(bday, 'months');
+    bday.add(months, 'months');
+    let days = moment().diff(bday, 'days');
+    return `${years} yrs, ${months} mos, ${days} days`
 });
 
 // hash password and reset pwconf
