@@ -42,7 +42,7 @@ module.exports = {
 
     index(req, res){
         if(req.session.uid){
-            User.findOne({_id:req.session.uid})
+            User.findById({_id:req.session.uid})
             .then(user => {
                 User.find({})
                 .then(users => res.render('index', {user, users}))
