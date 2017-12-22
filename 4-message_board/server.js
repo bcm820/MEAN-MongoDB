@@ -1,11 +1,10 @@
 
-const mods = '../../node_modules';
-const express = require(`${mods}/express`);
-const path = require(`${mods}/path`);
+const express = require(`express`);
+const path = require(`path`);
 const app = express();
-const bp = require(`${mods}/body-parser`);
-const mongoose = require(`${mods}/mongoose`);
-const session = require(`${mods}/express-session`);
+const bp = require(`body-parser`);
+const mongoose = require(`mongoose`);
+const session = require(`express-session`);
 
 app.use(express.static(path.join(__dirname, './views')));
 app.set('views', path.join(__dirname, './views'));

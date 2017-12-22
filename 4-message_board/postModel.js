@@ -1,6 +1,5 @@
 
-const mods = '../../node_modules';
-const mongoose = require(`${mods}/mongoose`);
+const mongoose = require(`mongoose`);
 
 // Schema variable for models that require associations
 const Schema = mongoose.Schema;

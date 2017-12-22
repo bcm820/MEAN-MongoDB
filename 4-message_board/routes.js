@@ -3,6 +3,7 @@ module.exports = function route(app, server, mongoose, session){
     
     // configure mongoose and require models
     mongoose.connect('mongodb://localhost/message_board');
+    mongoose.set('debug', true);
     mongoose.Promise = global.Promise;
 
     const PostModel = require('./postModel');
@@ -28,11 +29,12 @@ module.exports = function route(app, server, mongoose, session){
     // get all posts and comments
     app.get('/', (req, res) => {
         Post.find({})
-            .populate('comments')
-            .exec((err, posts) => {
-                let flashes = getFlashes(req);
-                res.render('index', {posts, flashes})
-        });
+        .populate('comments')
+        .then(posts => {
+            console.log(posts);
+            let flashes = getFlashes(req);
+            res.render('index', {posts, flashes})
+        })
     });
 
     // add post
